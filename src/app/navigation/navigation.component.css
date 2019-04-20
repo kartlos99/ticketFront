@@ -1,0 +1,9 @@
+.navbar {
+  background-color: darkkhaki;
+}
+
+.current {
+  font-style: italic;
+  font-weight: bold;
+  color: aliceblue;
+}

@@ -1,0 +1,75 @@
+<div class="container">
+  <div class="row">
+    <div class="offset-3"></div>
+    <div class="col-md-6">
+      <form name="form" #f="ngForm" (ngSubmit)="f.form.valid && sendTicket()" novalidate class="feedback-form">
+        <!-- title -->
+        <div class="form-group">
+          <label for="title_id">Title</label>
+          <input type="text"
+                 id="title_id"
+                 class="form-control"
+                 name="title"
+                 placeholder="title"
+                 [(ngModel)]="model.title"
+                 #title="ngModel"
+                 [ngClass]="{ 'is-invalid': f.submitted && title.invalid }"
+                 required/>
+          <!-- input validation group -->
+          <div *ngIf="f.submitted && title.invalid" class="invalid-input">
+            <!-- individual validation errors -->
+            <div *ngIf="title.errors?.required">Field is required</div>
+          </div>
+        </div>
+        <!-- body -->
+        <div class="form-group">
+          <label for="body_id">Description</label>
+          <textarea
+            id="body_id"
+            class="form-control"
+            name="body"
+            placeholder="Description (min 3 symbol)"
+            rows="4"
+            [(ngModel)]="model.body"
+            #t_body="ngModel"
+            [ngClass]="{ 'is-invalid': f.submitted && t_body.invalid }"
+            required minlength="3">
+			    </textarea>
+          <!-- input validation group -->
+          <div *ngIf="f.submitted && t_body.invalid" class="invalid-input">
+            <!-- individual validation errors -->
+            <div *ngIf="t_body.errors?.required">Field is required</div>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <label for="inputUser">შემსრულებელი</label>
+            <select id="inputUser" class="form-control" name="author"
+                    [(ngModel)]="workerID"
+                    required
+                    #sel_worker="ngModel"
+                    [ngClass]="{ 'is-invalid': f.submitted && sel_worker.value == 0 }"
+            >
+              <option disabled [value]="0">აირჩიეთ...</option>
+              <option *ngFor="let user of allUsers" [value]="user.id"  >{{user.username}}</option>
+            </select>
+          </div>
+
+          <div class="form-group col-md-5" *ngIf="editMode">
+            <label for="inputState">სტატუსი</label>
+            <select id="inputState" class="form-control" name="status" [(ngModel)]="statusID" required>
+<!--              <option selected>აირჩიეთ...</option>-->
+              <option *ngFor="let st of allStates" [value]="st.id">{{st.name}}</option>
+            </select>
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-info" [disabled]="sel_worker.value == 0">
+          <span>{{btnText}}</span>
+        </button>
+      </form>
+    </div>
+    <div class="offset-3"></div>
+  </div>
+</div>

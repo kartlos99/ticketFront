@@ -1,0 +1,51 @@
+<div class="row" style="margin:12px;">
+  <div class="col-md-10">
+    <input type="text"
+           [(ngModel)]="searchText"
+           (ngModelChange)="getSearchedTickets(searchText)"
+           class="form-control"
+           style="width: 100%;"
+           placeholder="ძებნა">
+  </div>
+  <div class="col-md-2">
+    <button type="buton"
+            (click)="createEditTicket(null)"
+            class="btn btn-info pull-right"
+            style="margin-left:12px;">ახალი ბილეთი
+    </button>
+  </div>
+</div>
+
+<table class="table">
+  <thead class="thead-light">
+  <tr>
+    <th scope="col">#</th>
+    <th scope="col">Title</th>
+    <th scope="col">Body</th>
+    <th scope="col">Start_Date</th>
+    <th scope="col">Status</th>
+    <th scope="col">Action</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let ticket of tickets">
+    <th scope="row">{{ticket.id}}</th>
+    <td>{{ticket.title}}</td>
+    <td>{{ticket.body}}</td>
+    <td>{{ticket.startDate | date:'yyyy-MM-dd HH:mm'}}</td>
+    <td [bgColor]="ticket.status.color" >{{ticket.status.name}} <br><i *ngIf="ticket.endDate != null">{{ticket.endDate | date:'yyyy-MM-dd HH:mm'}}</i></td>
+    <td>
+<!--      <a [routerLink]="['/tickets', ticket.id]">edit</a>-->
+      <button type="button"
+              (click)="createEditTicket(ticket)"
+              class="btn btn-info"
+              [disabled]="ticket.status.code == 'closed'"
+      >
+        Edit
+      </button>
+      <button type="button" (click)="deleteTicket(ticket)" class="btn btn-warning">DEL</button>
+    </td>
+  </tr>
+
+  </tbody>
+</table>
